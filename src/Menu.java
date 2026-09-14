@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Menu {
@@ -33,14 +37,16 @@ public class Menu {
 
     static void registerBooking(Scanner scan) {
         printActivities();
-        int activityIndex =InputReader.readIntWithCondition(scan,"Aktivitet? ",
+        int activityIndex = InputReader.readIntWithCondition(scan,"Aktivitet? ",
                 1, Main.ACTIVITIES.length) - 1;
         int numOfParticipants = InputReader.readIntWithCondition(scan,"Antal deltagare? ",
                 1, Main.MAX_NUM_PARTICIPANTS);
 
         int price = calculateBookingPrice(activityIndex, numOfParticipants);
         System.out.println("Registrerad en ny bokning:");
-        System.out.println(Main.ACTIVITIES[activityIndex] + ", " + numOfParticipants + " deltagare, " + price + " kr");
+        String bookingInfo = Main.ACTIVITIES[activityIndex] + ", " + numOfParticipants + " deltagare, " + price + " kr";
+        System.out.println(bookingInfo);
+        writeToFile(bookingInfo, Main.OUT_FILENAME);
     }
 
     static void printActivities() {
@@ -55,5 +61,18 @@ public class Menu {
 
     static int calculateBookingPrice (int activityIndex, int numOfParticipants){
         return Main.PRICES[activityIndex] * numOfParticipants;
+    }
+
+    static void writeToFile(String s, String filename) {
+        try {
+            PrintWriter outfile = new PrintWriter( new BufferedWriter( new FileWriter(filename, true)));
+            outfile.println(s);
+            outfile.close();
+            System.out.println("Sparad till filen " + filename);
+        } catch (IOException e) {
+            System.out.println("Ett fel uppstod:");
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }
