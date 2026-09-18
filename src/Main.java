@@ -121,7 +121,7 @@ public class Main {
             } catch (InputMismatchException e) {
                 // Hanterar om användaren skriver något som inte är ett heltal.
                 scan.nextLine();
-                System.out.println("Felaktigt heltal, försök igen");
+                System.out.println("Felaktigt heltal, talet måste vara mellan " + min + " och " + max);
             } catch (NoSuchElementException e) {
                 // Avslutar programmet om användaren trycker på Cmd-D/Ctrl+Z.
                 System.out.println("Avslutar programmet");
