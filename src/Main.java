@@ -91,22 +91,18 @@ public class Main {
 
     public static void printSummary(){
         // Skriver ut en sammanställning av alla bokningar och deras totala värde.
+        int[] numBookings = new int[Booking.ACTIVITIES.length];
         System.out.println("\n--------------------------------------------");
         System.out.println("Totalt antal bokningar: " + BOOKINGS.size());
         int totalSum = 0;
         for (Booking booking: BOOKINGS) {
+            numBookings[booking.getActivityIndex()]++;
             totalSum += booking.getPrice();
         }
         System.out.println("Sammanlagt värde för alla bokningar: " + totalSum + " kr");
 
         for (int i = 0; i < Booking.ACTIVITIES.length; i++) {
-            int numBookings = 0;
-            for (Booking booking: BOOKINGS) {
-                if (booking.getActivityIndex() == i){
-                    numBookings++;
-                }
-            }
-            System.out.println("Antal bokningar för " + Booking.ACTIVITIES[i] + ": " + numBookings);
+            System.out.println("Antal bokningar för " + Booking.ACTIVITIES[i] + ": " + numBookings[i]);
         }
         System.out.println("--------------------------------------------\n");
     }
