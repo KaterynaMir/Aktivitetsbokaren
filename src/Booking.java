@@ -7,20 +7,16 @@ public class Booking {
     private final int numOfParticipants;
     private final int price;
 
-    public Booking (int activityIndex, int numOfParticipants, int price) {
+    public Booking (int activityIndex, int numOfParticipants) {
         if (activityIndex < 0 || activityIndex >= ACTIVITIES.length) {
             throw new IllegalArgumentException("Ogiltigt aktivitetsindex.");
         }
-
         if (numOfParticipants < 1 || numOfParticipants > MAX_NUM_PARTICIPANTS) {
             throw new IllegalArgumentException("Ogiltigt antal deltagare.");
         }
-        if (price <= 0) {
-            throw new IllegalArgumentException("Ogiltigt pris.");
-        }
         this.activityIndex = activityIndex;
         this.numOfParticipants = numOfParticipants;
-        this.price = price;
+        price = calculateBookingPrice();
     }
 
     public int getActivityIndex() {
@@ -41,7 +37,7 @@ public class Booking {
         return ACTIVITIES[activityIndex] + ", " + numOfParticipants + " deltagare, " + price + " kr";
     }
 
-    public static int calculateBookingPrice (int activityIndex, int numOfParticipants){
+    private int calculateBookingPrice (){
         // Beräknar priset utifrån aktivitet och antal deltagare.
         return PRICES[activityIndex] * numOfParticipants;
     }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static final ArrayList<Booking> BOOKINGS = new ArrayList<>();
+    private static final ArrayList<Booking> BOOKINGS = new ArrayList<>();
 
     public static void main(String[] args) {
         //Kör huvudprogramsloopen
@@ -34,9 +34,14 @@ public class Main {
 
     public static boolean userAction(Scanner scan) {
         // Läser användarens menyval och kör rätt metod.
-        int choice = readIntWithCondition(scan, "Ange ditt val: ", 1, 4);
+        int choice = readIntInInterval(scan, "Ange ditt val: ", 1, 4);
+        if (choice == -1){ //användaren tryckte på EOF
+            return false;
+        }
         switch (choice) {
-            case 1 -> registerBooking(scan);
+            case 1 -> {
+                return registerBooking(scan);
+            }
             case 2 -> showAllBookings();
             case 3 -> printSummary();
             case 4 -> {
@@ -47,20 +52,28 @@ public class Main {
         return true;
     }
 
-    public static void registerBooking(Scanner scan) {
+    public static boolean registerBooking(Scanner scan) {
         // Låter användaren välja aktivitet och antal deltagare samt skapar en bokning.
         printActivities();
-        int activityIndex = readIntWithCondition(scan,"Aktivitet? ",
-                1, Booking.ACTIVITIES.length) - 1;
-        int numOfParticipants = readIntWithCondition(scan,"Antal deltagare? ",
+
+        int activityIndex = readIntInInterval(scan,"Aktivitet? ",
+                1, Booking.ACTIVITIES.length);
+        if (activityIndex == -1){ //EOF under registrering
+            return false;
+        }
+        activityIndex--; //För att få korrekt arrayens index
+
+        int numOfParticipants = readIntInInterval(scan,"Antal deltagare? ",
                 1, Booking.MAX_NUM_PARTICIPANTS);
+        if (numOfParticipants == -1){ //EOF under registrering
+            return false;
+        }
 
-        int price = Booking.calculateBookingPrice(activityIndex, numOfParticipants);
-
-        Booking booking = new Booking(activityIndex, numOfParticipants, price);
+        Booking booking = new Booking(activityIndex, numOfParticipants);
         System.out.println("Registrerad en ny bokning:");
         System.out.println(booking);
         BOOKINGS.add(booking);
+        return true;
     }
 
     public static void printActivities() {
@@ -91,23 +104,23 @@ public class Main {
 
     public static void printSummary(){
         // Skriver ut en sammanställning av alla bokningar och deras totala värde.
-        int[] numBookings = new int[Booking.ACTIVITIES.length];
+        int[] bookingsPerActivity = new int[Booking.ACTIVITIES.length];
         System.out.println("\n--------------------------------------------");
         System.out.println("Totalt antal bokningar: " + BOOKINGS.size());
         int totalSum = 0;
         for (Booking booking: BOOKINGS) {
-            numBookings[booking.getActivityIndex()]++;
+            bookingsPerActivity[booking.getActivityIndex()]++;
             totalSum += booking.getPrice();
         }
         System.out.println("Sammanlagt värde för alla bokningar: " + totalSum + " kr");
 
         for (int i = 0; i < Booking.ACTIVITIES.length; i++) {
-            System.out.println("Antal bokningar för " + Booking.ACTIVITIES[i] + ": " + numBookings[i]);
+            System.out.println("Antal bokningar för " + Booking.ACTIVITIES[i] + ": " + bookingsPerActivity[i]);
         }
         System.out.println("--------------------------------------------\n");
     }
 
-    public static int readIntWithCondition(Scanner scan, String message, int min, int max) {
+    public static int readIntInInterval(Scanner scan, String message, int min, int max) {
         // Läser in ett heltal och kontrollerar att det ligger inom angivet intervall.
         while (true) {
             int num;
@@ -125,7 +138,7 @@ public class Main {
             } catch (NoSuchElementException e) {
                 // Avslutar programmet om användaren trycker på Cmd-D/Ctrl+Z.
                 System.out.println("Avslutar programmet");
-                System.exit(0);
+                return -1;
             }
         }
     }
