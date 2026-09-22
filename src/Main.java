@@ -8,21 +8,21 @@ public class Main {
     private static final ArrayList<Booking> BOOKINGS = new ArrayList<>();
     private static final String LINE = "--------------------------------------------";
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         //Kör huvudprogramsloopen
-        try(Scanner scan = new Scanner(System.in)) {
+        try (Scanner scan = new Scanner(System.in)) {
             boolean continueAction = true;
             while (continueAction) {
                 printMenu();
                 continueAction = userAction(scan);
             }
-        }catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             // Avslutar programmet om användaren trycker på Cmd-D/Ctrl+Z.
             System.out.println("Avslutar programmet");
         }
     }
 
-    public static void printMenu () {
+    public static void printMenu() {
         // Skriver ut programmets huvudmeny.
 
         printHeader("AKTIVITETSBOKAREN");
@@ -51,9 +51,9 @@ public class Main {
     public static void registerBooking(Scanner scan) {
         // Låter användaren välja aktivitet och antal deltagare samt skapar en bokning.
         printActivities();
-        int activityIndex = readIntInInterval(scan,"Aktivitet? ",
+        int activityIndex = readIntInInterval(scan, "Aktivitet? ",
                 1, Booking.ACTIVITIES.length) - 1;
-        int numOfParticipants = readIntInInterval(scan,"Antal deltagare? ",
+        int numOfParticipants = readIntInInterval(scan, "Antal deltagare? ",
                 1, Booking.MAX_NUM_PARTICIPANTS);
 
 
@@ -72,25 +72,25 @@ public class Main {
 
     }
 
-    public static void showAllBookings(){
+    public static void showAllBookings() {
         // Visar alla registrerade bokningar
-        if (BOOKINGS.isEmpty()){
+        if (BOOKINGS.isEmpty()) {
             printHeader("Inga registrerade bokningar.");
             return;
         }
         printHeader("Alla bokningar: ");
         for (int i = 0; i < BOOKINGS.size(); i++) {
-            System.out.println("Bokning "+ (i + 1) + ": " + BOOKINGS.get(i));
+            System.out.println("Bokning " + (i + 1) + ": " + BOOKINGS.get(i));
         }
         printLine();
     }
 
-    public static void printSummary(){
+    public static void printSummary() {
         // Skriver ut en sammanställning av alla bokningar och deras totala värde.
         int[] bookingsPerActivity = new int[Booking.ACTIVITIES.length];
         printHeader("Totalt antal bokningar: " + BOOKINGS.size());
         int totalSum = 0;
-        for (Booking booking: BOOKINGS) {
+        for (Booking booking : BOOKINGS) {
             bookingsPerActivity[booking.getActivityIndex()]++;
             totalSum += booking.getPrice();
         }
@@ -109,7 +109,7 @@ public class Main {
             System.out.print(message);
             try {
                 num = scan.nextInt();
-                if (num >= min && num <= max){
+                if (num >= min && num <= max) {
                     return num;
                 }
                 System.out.println("Talet måste vara mellan " + min + " och " + max);
@@ -120,10 +120,12 @@ public class Main {
             }
         }
     }
-    private static void printLine(){
+
+    private static void printLine() {
         System.out.println(LINE);
     }
-    private static void printHeader(String title){
+
+    private static void printHeader(String title) {
         System.out.println();
         printLine();
         System.out.println(title);

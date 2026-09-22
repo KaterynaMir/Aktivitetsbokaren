@@ -1,5 +1,5 @@
 public class Booking {
-    public static final String[] ACTIVITIES = {"Programmeringsworkshop","Matlagningskurs","Träningspass"};
+    public static final String[] ACTIVITIES = {"Programmeringsworkshop", "Matlagningskurs", "Träningspass"};
     public static final int[] PRICES = {200, 300, 150};
     public static final int MAX_NUM_PARTICIPANTS = 500;
 
@@ -7,7 +7,7 @@ public class Booking {
     private final int numOfParticipants;
     private final int price;
 
-    public Booking (int activityIndex, int numOfParticipants) {
+    public Booking(int activityIndex, int numOfParticipants) {
         // Konstruktor med validering
         if (activityIndex < 0 || activityIndex >= ACTIVITIES.length) {
             throw new IllegalArgumentException("Ogiltigt aktivitetsindex.");
@@ -38,7 +38,7 @@ public class Booking {
         return ACTIVITIES[activityIndex] + ", " + numOfParticipants + " deltagare, " + price + " kr";
     }
 
-    private int calculateBookingPrice (){
+    private int calculateBookingPrice() {
         // Beräknar priset utifrån aktivitet och antal deltagare.
         return PRICES[activityIndex] * numOfParticipants;
     }
