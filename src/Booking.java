@@ -8,7 +8,7 @@ public class Booking {
     private final int price;
 
     public Booking (int activityIndex, int numOfParticipants) {
-        // Konstruktor som sätter upp objekt och ser till att rätt värden anges.
+        // Konstruktor med validering
         if (activityIndex < 0 || activityIndex >= ACTIVITIES.length) {
             throw new IllegalArgumentException("Ogiltigt aktivitetsindex.");
         }
@@ -42,5 +42,4 @@ public class Booking {
         // Beräknar priset utifrån aktivitet och antal deltagare.
         return PRICES[activityIndex] * numOfParticipants;
     }
-
 }

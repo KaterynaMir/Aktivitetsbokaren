@@ -99,7 +99,7 @@ public class Main {
         for (int i = 0; i < Booking.ACTIVITIES.length; i++) {
             System.out.println("Antal bokningar för " + Booking.ACTIVITIES[i] + ": " + bookingsPerActivity[i]);
         }
-       printLine();
+        printLine();
     }
 
     public static int readIntInInterval(Scanner scan, String message, int min, int max) {
