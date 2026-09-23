@@ -69,7 +69,7 @@ public class Main {
         for (int i = 0; i < Booking.ACTIVITIES.length; i++) {
             System.out.format("%2d %-25s %4d kr\n", i + 1, Booking.ACTIVITIES[i], Booking.PRICES[i]);
         }
-
+        printLine();
     }
 
     public static void showAllBookings() {
